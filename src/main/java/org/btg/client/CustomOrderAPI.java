@@ -12,10 +12,9 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 public interface CustomOrderAPI {
 
     @GET
-    @Path("/{clientId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Get Client Order Information")
-    @APIResponse(responseCode = "200", description = "Orders returned successfully")
+    @Operation(summary = "Get All Clients With Order information")
+    @APIResponse(responseCode = "200", description = "Clients with order returned successfully")
     @APIResponse(responseCode = "500", description = "Unable to return information due to an internal error")
     default Response getClientOrders(@PathParam("clientId") Integer clientId){
         throw new ServiceUnavailableException("Endpoint not implemented yet");
