@@ -2,7 +2,6 @@ package org.btg.client;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import org.btg.client.dto.ClientOrderInfo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -19,7 +18,7 @@ public interface CustomOrderAPI {
     @Operation(summary = "Get All Clients With Order information")
     @APIResponse(responseCode = "200", description = "Clients with order returned successfully")
     @APIResponse(responseCode = "500", description = "Unable to return information due to an internal error")
-    default List<ClientOrderInfo> getClientOrders(@PathParam("clientId") Integer clientId){
+    default List<ClientOrderInfo> getClientOrders(){
         throw new ServiceUnavailableException("Endpoint not implemented yet");
     }
 }
