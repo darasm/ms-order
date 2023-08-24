@@ -1,6 +1,7 @@
 package org.btg.rabbitmq;
 
 
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.btg.client.OrderRequestAPI;
 import org.btg.client.dto.OrderRequest;
@@ -16,5 +17,6 @@ public class OrderRequestProducer implements OrderRequestAPI {
     @Override
     public void createOrder(OrderRequest order) {
         emitter.send(order);
+        Log.infof("Order request %s sent", order.orderId);
     }
 }
