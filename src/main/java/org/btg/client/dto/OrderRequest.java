@@ -5,19 +5,19 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 
 @RegisterForReflection
-public class OrderProcessor {
+public class OrderRequest {
 
     public Integer orderId;
     public Integer clientId;
-    public List<OrderItemsProcessor> items;
+    public List<OrderItemsRequest> items;
 
-    public OrderProcessor(Integer orderId, Integer clientId, List<OrderItemsProcessor> items) {
+    public OrderRequest(Integer orderId, Integer clientId, List<OrderItemsRequest> items) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.items = items;
     }
 
-    public OrderProcessor() {
+    public OrderRequest() {
     }
 
     @Override
