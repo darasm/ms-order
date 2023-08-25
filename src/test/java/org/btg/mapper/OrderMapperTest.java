@@ -15,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 class OrderMapperTest {
@@ -22,19 +26,15 @@ class OrderMapperTest {
     @Inject
     private OrderMapper orderMapper;
 
-//    @Test
-    void toEntity() { //FIXME
+    private static final UUID ITEM_ID = UUID.fromString("834efdb6-6044-4b44-8fcb-560710936f37");
+    private static final UUID ITEM_ID_2 = UUID.fromString("511fea83-9f5f-4606-85ec-3d769da4bf63");
 
-        var gatoradeItemRequest = new OrderItemsRequest()
-                .setProductName("Gatorade")
-                .setQuantity(5)
-                .setPrice(BigDecimal.ONE);
+    @Test
+    void toEntity() {
 
-        var cocaItemRequest = new OrderItemsRequest()
-                .setProductName("Coca-Cola")
-                .setQuantity(5)
-                .setPrice(BigDecimal.ONE);
+        var gatoradeItemRequest = createOrderItemRequest("Gatorade");
 
+        var cocaItemRequest = createOrderItemRequest("Coca-Cola");
 
         var orderRequest = new OrderRequest()
                 .setOrderId(1L)
@@ -45,18 +45,27 @@ class OrderMapperTest {
 
         var response = orderMapper.toEntity(orderRequest);
 
-        Assertions.assertEquals(expectedResponse, response);
+        Assertions.assertEquals(expectedResponse.getId(), response.getId());
+        Assertions.assertEquals(expectedResponse.getClientId(), response.getClientId());
+        Assertions.assertEquals(expectedResponse.getItems().size(), response.getItems().size());
+
+
     }
 
     @Test
     void toOrderItemEntity() {
         var orderItemRequest = createOrderItemRequest("Gatorade");
 
-        var expectedResponse = createOrderItemEntity("Gatorade").setTotalPrice(null);
+        var expectedResponse = createOrderItemEntity("Gatorade", null).setTotalPrice(null);
 
         var response = orderMapper.toOrderItemEntity(orderItemRequest, 1L);
 
-        Assertions.assertEquals(expectedResponse, response);
+        assertNotNull(response.getId().getOrderItemId());
+        Assertions.assertEquals(expectedResponse.getProductName(), response.getProductName());
+        Assertions.assertEquals(expectedResponse.getQuantity(), response.getQuantity());
+        Assertions.assertEquals(expectedResponse.getUnitPrice(), response.getUnitPrice());
+        Assertions.assertEquals(expectedResponse.getTotalPrice(), response.getTotalPrice());
+
     }
 
     @Test
@@ -73,12 +82,7 @@ class OrderMapperTest {
 
     @Test
     void toOrderItem() {
-        var orderItemEntity = new OrderItemEntity()
-                .setId(new OrderItemPK(1L, 1L))
-                .setQuantity(5)
-                .setProductName("Gatorade")
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5));
+        var orderItemEntity = createOrderItemEntity("Gatorade", ITEM_ID);
 
         var expectedResponse  = createOrderItemDTO("Gatorade");
 
@@ -94,12 +98,14 @@ class OrderMapperTest {
         var cocaItem = createOrderItemRequest("Coca-Cola");
 
         var expectedResponse = List.of(
-                createOrderItemEntity("Gatorade").setTotalPrice(null),
-                createOrderItemEntity("Coca-Cola").setTotalPrice(null));
+                createOrderItemEntity("Gatorade", ITEM_ID).setTotalPrice(null),
+                createOrderItemEntity("Coca-Cola", ITEM_ID_2).setTotalPrice(null));
 
         var response = orderMapper.toOrderItemEntityList(List.of(gatoradeItem, cocaItem), 1L);
 
-        Assertions.assertEquals(expectedResponse, response);
+        response.forEach(r -> assertNotNull(r.getId().getOrderItemId()));
+        assertTrue(response.stream().anyMatch(r -> r.getProductName() == expectedResponse.get(0).getProductName()));
+        assertTrue(response.stream().anyMatch(r -> r.getProductName() == expectedResponse.get(1).getProductName()));
 
     }
 
@@ -115,8 +121,8 @@ class OrderMapperTest {
 
     @Test
     void toOrderItemList() {
-        var gatoradeItemEntity = createOrderItemEntity("Gatorade");
-        var cocaItemEntity = createOrderItemEntity("Coca-Cola");
+        var gatoradeItemEntity = createOrderItemEntity("Gatorade", ITEM_ID);
+        var cocaItemEntity = createOrderItemEntity("Coca-Cola", ITEM_ID_2);
 
         var expectedResponse = List.of(createOrderItemDTO("Gatorade"), createOrderItemDTO("Coca-Cola"));
         var response = orderMapper.toOrderItemList(List.of(gatoradeItemEntity, cocaItemEntity));
@@ -130,9 +136,9 @@ class OrderMapperTest {
                 .setPrice(BigDecimal.ONE)
                 .setQuantity(5);
     }
-    private OrderItemEntity createOrderItemEntity(String productName) {
+    private OrderItemEntity createOrderItemEntity(String productName, UUID itemId) {
         return new OrderItemEntity()
-                .setId(new OrderItemPK(1L, 1L))
+                .setId(new OrderItemPK().setOrderItemId(itemId).setOrderId(1L))
                 .setTotalPrice(BigDecimal.valueOf(5L))
                 .setProductName(productName)
                 .setUnitPrice(BigDecimal.ONE)
@@ -161,9 +167,9 @@ class OrderMapperTest {
     }
 
     private OrderEntity createOrderEntity() {
-        var item = createOrderItemEntity("Gatorade");
+        var item = createOrderItemEntity("Gatorade", ITEM_ID);
 
-        var item2 = createOrderItemEntity("Coca-Cola");
+        var item2 = createOrderItemEntity("Coca-Cola", ITEM_ID_2);
 
         return new OrderEntity()
                 .setId(1L)

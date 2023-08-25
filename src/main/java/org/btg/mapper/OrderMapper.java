@@ -22,7 +22,7 @@ public interface OrderMapper {
     OrderEntity toEntity(OrderRequest request);
 
     @Mapping(target = "id.orderId", source = "orderId")
-    @Mapping(target = "id.orderItemId", source = "orderId")
+    @Mapping(target = "id.orderItemId", ignore = true)
     @Mapping(target = "unitPrice", source = "request.price")
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)

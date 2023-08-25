@@ -1,18 +1,14 @@
 package org.btg.controller;
 
 import io.quarkus.test.InjectMock;
-import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.btg.dto.ClientOrderInfo;
-import org.btg.dto.Order;
-import org.btg.dto.OrderItem;
 import org.btg.repository.OrderRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @QuarkusTest
@@ -25,7 +21,7 @@ class CustomOrderControllerTest {
     private OrderRepository repository;
 
     @Test
-    void testReturnEmptyClientOrderInfo(){
+    void testReturnEmptyClientOrderInfo() {
         Mockito.when(repository.findClientsOrders())
                 .thenReturn(List.of());
 
@@ -35,23 +31,7 @@ class CustomOrderControllerTest {
     }
 
     @Test
-    void testReturnClientOrderInfo(){
-        var gatoradeItem = new OrderItem()
-                .setProductName("Gatorade")
-                .setQuantity(5)
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5L));
-
-        var cocaItem = new OrderItem()
-                .setProductName("Coca-Cola")
-                .setQuantity(5)
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5L));
-
-        var order = new Order()
-                .setOrderId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(gatoradeItem, cocaItem));
+    void testReturnClientOrderInfo() {
 
         var expectedReturn = new ClientOrderInfo();
         expectedReturn.setClientId(1L);

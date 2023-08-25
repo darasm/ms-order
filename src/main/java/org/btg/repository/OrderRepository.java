@@ -27,8 +27,7 @@ public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long>
                 new ClientOrderInfo()
                         .setClientId(c.getKey())
                         .setAmountOfOrders(c.getValue().size())
-                        .setOrders(mapper.toOrdersList(c.getValue())))
-                .toList();
+                        .setOrders(mapper.toOrdersList(c.getValue()))).toList();
 
         return orderInt;
     }

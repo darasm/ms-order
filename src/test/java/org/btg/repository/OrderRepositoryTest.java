@@ -1,12 +1,9 @@
 package org.btg.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.test.InjectMock;
-import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.btg.dto.ClientOrderInfo;
 import org.btg.dto.Order;
@@ -22,6 +19,7 @@ import org.mockito.Mockito;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @QuarkusTest
 class OrderRepositoryTest {
@@ -32,12 +30,15 @@ class OrderRepositoryTest {
     @InjectMock
     private OrderMapper orderMapper;
 
+    private static final UUID ITEM_ID = UUID.fromString("834efdb6-6044-4b44-8fcb-560710936f37");
+    private static final UUID ITEM_ID_2 = UUID.fromString("511fea83-9f5f-4606-85ec-3d769da4bf63");
+
 
     @Test
     @Transactional
     void testReturnAllRequiredFields(){ //FIXME
         var item = new OrderItemEntity()
-                .setId(new OrderItemPK(1L, 1L))
+                .setId(new OrderItemPK(ITEM_ID, 1L))
                 .setTotalPrice(BigDecimal.valueOf(5L))
                 .setProductName("Gatorade")
                 .setUnitPrice(BigDecimal.ONE)
@@ -46,7 +47,7 @@ class OrderRepositoryTest {
                 .setUpdateAt(new Date());
 
         var item2 = new OrderItemEntity()
-                .setId(new OrderItemPK(2L, 1L))
+                .setId(new OrderItemPK(ITEM_ID_2, 1L))
                 .setTotalPrice(BigDecimal.valueOf(5L))
                 .setProductName("Coca-Cola")
                 .setUnitPrice(BigDecimal.ONE)
@@ -91,7 +92,7 @@ class OrderRepositoryTest {
         var response = repository.findClientsOrders();
 
         Assertions.assertFalse(response.isEmpty());
-//        Assertions.assertEquals(List.of(expectedResponse), response);
+//        Assertions.assertEquals(expectedResponse, response);
 
     }
 

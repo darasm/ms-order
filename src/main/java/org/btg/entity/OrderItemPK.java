@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Embeddable
 public class OrderItemPK implements Serializable {
-    @Column(name = "order_item_id")
-    private Long orderItemId;
+    @Column(name = "order_item_id", columnDefinition = "uuid")
+    private UUID orderItemId = UUID.randomUUID();
     @Column(name = "order_id")
     private Long orderId;
 
@@ -16,16 +17,16 @@ public class OrderItemPK implements Serializable {
         // Default constructor
     }
 
-    public OrderItemPK(Long orderItemId, Long orderId) {
-        this.orderItemId = orderItemId;
+    public OrderItemPK(UUID orderItemId, Long orderId) {
+        this.orderItemId = orderItemId == null ? UUID.randomUUID() : orderItemId;
         this.orderId = orderId;
     }
 
-    public Long getOrderItemId() {
+    public UUID getOrderItemId() {
         return orderItemId;
     }
 
-    public OrderItemPK setOrderItemId(Long orderItemId) {
+    public OrderItemPK setOrderItemId(UUID orderItemId) {
         this.orderItemId = orderItemId;
         return this;
     }
