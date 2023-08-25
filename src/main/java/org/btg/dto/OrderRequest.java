@@ -1,4 +1,4 @@
-package org.btg.client.dto;
+package org.btg.dto;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 

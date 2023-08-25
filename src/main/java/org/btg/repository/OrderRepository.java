@@ -2,7 +2,7 @@ package org.btg.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.btg.client.dto.ClientOrderInfo;
+import org.btg.dto.ClientOrderInfo;
 import org.btg.entity.OrderEntity;
 import org.btg.mapper.OrderMapper;
 

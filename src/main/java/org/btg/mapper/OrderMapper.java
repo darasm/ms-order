@@ -1,9 +1,9 @@
 package org.btg.mapper;
 
-import org.btg.client.dto.Order;
-import org.btg.client.dto.OrderItem;
-import org.btg.client.dto.OrderItemsRequest;
-import org.btg.client.dto.OrderRequest;
+import org.btg.dto.Order;
+import org.btg.dto.OrderItem;
+import org.btg.dto.OrderItemsRequest;
+import org.btg.dto.OrderRequest;
 import org.btg.entity.OrderEntity;
 import org.btg.entity.OrderItemEntity;
 import org.mapstruct.Mapper;

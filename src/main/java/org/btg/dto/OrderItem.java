@@ -1,12 +1,19 @@
-package org.btg.client.dto;
+package org.btg.dto;
+
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
 public class OrderItem {
 
+    @Schema(title = "Product Name", example = "French Fries", type = SchemaType.STRING)
     private String productName;
+    @Schema(title = "Amount of product", example = "10", type = SchemaType.INTEGER)
     private Integer quantity;
+    @Schema(title = "Unit Product Price", example = "1.00", type = SchemaType.NUMBER)
     private BigDecimal unitPrice;
+    @Schema(title = "Total Product Price", example = "10.00", type = SchemaType.NUMBER)
     private BigDecimal totalPrice;
 
     public OrderItem() {
