@@ -1,6 +1,5 @@
 package org.btg.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,9 +9,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "order", indexes = @Index(name = "idx_order_client_id", columnList = "client_id"))
-public class OrderEntity extends PanacheEntityBase {
-
+public class OrderEntity {
     @Id
+    @Column(nullable = false)
     private Long id;
     @Column(name = "client_id", nullable = false)
     private Long clientId;
@@ -20,10 +19,10 @@ public class OrderEntity extends PanacheEntityBase {
     private BigDecimal totalPrice;
     @Column(name = "create_at", nullable = false, updatable = false)
     @CreationTimestamp
-    private Date createAt;
+    private Date createAt = new Date();
     @Column(name = "update_at", nullable = false)
     @UpdateTimestamp
-    private Date updateAt;
+    private Date updateAt = new Date();
 
     public OrderEntity() {
         //Default constructor

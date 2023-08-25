@@ -20,6 +20,33 @@ public class OrderItemsRequest {
     public OrderItemsRequest() {
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public OrderItemsRequest setProductName(String productName) {
+        this.productName = productName;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public OrderItemsRequest setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public OrderItemsRequest setPrice(BigDecimal price) {
+        this.price = price;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OrderItemsProcessor{" +

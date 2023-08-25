@@ -14,12 +14,12 @@ mp:
       requests:
         connector: smallrye-rabbitmq
         queue:
-          name: order-requests
+          name: orders
         exchange:
-          name: order
-#    outgoing:
-#      order:
-#        connector: smallrye-rabbitmq
-#        exchange:
-#          name: order
+          name: order-request
+    outgoing:
+      order-request:
+        connector: smallrye-rabbitmq
+        exchange:
+          name: order-request
 

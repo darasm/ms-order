@@ -14,7 +14,7 @@ public interface OrderRequestAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @APIResponse(responseCode = "201", description = "Order sent successfully")
+    @APIResponse(responseCode = "204", description = "Order sent successfully")
     @APIResponse(responseCode = "400", description = "Missing some important information")
     @APIResponse(responseCode = "500", description = "Unable to create order due to an internal error")
     default void createOrder(@RequestBody OrderRequest order){
