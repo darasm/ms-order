@@ -1,14 +1,18 @@
 package org.btg.dto;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
 @RegisterForReflection
 public class OrderRequest {
-
+    @Schema(title = "Order Identifier", example = "1", minimum = "0")
     public Long orderId;
+    @Schema(title = "Client Identifier", example = "1", required = true, minimum = "0")
     public Long clientId;
+    @Schema(title = "Order Information list", type = SchemaType.ARRAY, required = true, minLength = 1)
     public List<OrderItemsRequest> items;
 
     public OrderRequest(Long orderId, Long clientId, List<OrderItemsRequest> items) {

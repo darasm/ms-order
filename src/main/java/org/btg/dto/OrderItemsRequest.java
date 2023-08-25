@@ -1,14 +1,18 @@
 package org.btg.dto;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
 @RegisterForReflection
 public class OrderItemsRequest {
-
+    @Schema(title = "Product Name", example = "French Fries", type = SchemaType.STRING, required = true)
     public String productName;
+    @Schema(title = "Amount of product", example = "10", type = SchemaType.INTEGER, required = true)
     public Integer quantity;
+    @Schema(title = "Unit Product Price", example = "1.00", type = SchemaType.NUMBER, required = true)
     public BigDecimal price;
 
     public OrderItemsRequest(String productName, Integer quantity, BigDecimal price) {
