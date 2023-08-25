@@ -1,19 +1,18 @@
 package org.btg.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Embeddable
 public class OrderItemPK implements Serializable {
-
     @Column(name = "order_item_id")
     private Long orderItemId;
     @Column(name = "order_id")
     private Long orderId;
 
     public OrderItemPK() {
+        // Default constructor
     }
 
     public OrderItemPK(Long orderItemId, Long orderId) {

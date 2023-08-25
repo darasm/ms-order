@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import org.btg.client.dto.OrderItemsRequest;
 import org.btg.client.dto.OrderRequest;
+import org.btg.entity.OrderItemPK;
 import org.btg.mapper.OrderMapper;
 import org.btg.repository.OrderRepository;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
