@@ -36,7 +36,7 @@ class OrderRepositoryTest {
 
     @Test
     @Transactional
-    void testReturnAllRequiredFields(){ //FIXME
+    void testClientWithOnwOrder() {
         var item = new OrderItemEntity()
                 .setId(new OrderItemPK(ITEM_ID, 1L))
                 .setTotalPrice(BigDecimal.valueOf(5L))
@@ -61,6 +61,7 @@ class OrderRepositoryTest {
                 .setTotalPrice(BigDecimal.TEN)
                 .setItems(List.of(item, item2));
 
+
         PanacheEntityBase.persist(orderEntity);
 
         var gatoradeItem = new OrderItem()
@@ -83,16 +84,90 @@ class OrderRepositoryTest {
 
         var expectedResponse = new ClientOrderInfo()
                 .setClientId(1L)
-                .setAmountOfOrders(2)
+                .setAmountOfOrders(1)
                 .setOrders(List.of(order));
 
-        Mockito.when(orderMapper.toOrder(Mockito.any(OrderEntity.class)))
-                .thenReturn(order);
+        Mockito.when(orderMapper.toOrdersList(Mockito.any()))
+                .thenReturn(List.of(order));
 
         var response = repository.findClientsOrders();
 
         Assertions.assertFalse(response.isEmpty());
-//        Assertions.assertEquals(expectedResponse, response);
+        Assertions.assertEquals(List.of(expectedResponse), response);
+
+    }
+
+    @Test
+    @Transactional
+    void testClientWithMoreThanOnwOrder(){
+        var item = new OrderItemEntity()
+                .setId(new OrderItemPK(ITEM_ID, 1L))
+                .setTotalPrice(BigDecimal.valueOf(5L))
+                .setProductName("Gatorade")
+                .setUnitPrice(BigDecimal.ONE)
+                .setQuantity(5)
+                .setCreateAt(new Date())
+                .setUpdateAt(new Date());
+
+        var item2 = new OrderItemEntity()
+                .setId(new OrderItemPK(ITEM_ID_2, 1L))
+                .setTotalPrice(BigDecimal.valueOf(5L))
+                .setProductName("Coca-Cola")
+                .setUnitPrice(BigDecimal.ONE)
+                .setQuantity(5)
+                .setCreateAt(new Date())
+                .setUpdateAt(new Date());
+
+        var orderEntity = new OrderEntity()
+                .setId(1L)
+                .setClientId(1L)
+                .setTotalPrice(BigDecimal.TEN)
+                .setItems(List.of(item, item2));
+
+        var secondOrderEntity = new OrderEntity()
+                .setId(2L)
+                .setClientId(1L)
+                .setTotalPrice(BigDecimal.valueOf(5L))
+                .setItems(List.of(item));
+
+        PanacheEntityBase.persist(orderEntity);
+        PanacheEntityBase.persist(secondOrderEntity);
+
+        var gatoradeItem = new OrderItem()
+                .setProductName("Gatorade")
+                .setQuantity(5)
+                .setUnitPrice(BigDecimal.ONE)
+                .setTotalPrice(BigDecimal.valueOf(5L));
+
+        var cocaItem = new OrderItem()
+                .setProductName("Coca-Cola")
+                .setQuantity(5)
+                .setUnitPrice(BigDecimal.ONE)
+                .setTotalPrice(BigDecimal.valueOf(5L));
+
+        var order = new Order()
+                .setOrderId(1L)
+                .setTotalPrice(BigDecimal.TEN)
+                .setItems(List.of(gatoradeItem, cocaItem));
+
+        var secondOrder = new Order()
+                .setOrderId(2L)
+                .setTotalPrice(BigDecimal.valueOf(5))
+                .setItems(List.of(gatoradeItem));
+
+
+        var expectedResponse = new ClientOrderInfo()
+                .setClientId(1L)
+                .setAmountOfOrders(2)
+                .setOrders(List.of(order, secondOrder));
+
+        Mockito.when(orderMapper.toOrdersList(Mockito.any()))
+                .thenReturn(List.of(order, secondOrder));
+
+        var response = repository.findClientsOrders();
+
+        Assertions.assertFalse(response.isEmpty());
+        Assertions.assertEquals(List.of(expectedResponse), response);
 
     }
 
