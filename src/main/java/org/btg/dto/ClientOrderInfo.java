@@ -4,6 +4,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ClientOrderInfo {
 
@@ -43,5 +44,27 @@ public class ClientOrderInfo {
     public ClientOrderInfo setOrders(List<Order> orders) {
         this.orders = orders;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClientOrderInfo that = (ClientOrderInfo) o;
+        return Objects.equals(clientId, that.clientId) && Objects.equals(amountOfOrders, that.amountOfOrders) && Objects.equals(orders, that.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientId, amountOfOrders, orders);
+    }
+
+    @Override
+    public String toString() {
+        return "ClientOrderInfo{" +
+                "clientId=" + clientId +
+                ", amountOfOrders=" + amountOfOrders +
+                ", orders=" + orders +
+                '}';
     }
 }

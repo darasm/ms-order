@@ -5,6 +5,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
     @Schema(title = "Order Identifier", example = "1", minimum = "0")
@@ -43,5 +44,27 @@ public class Order {
     public Order setItems(List<OrderItem> items) {
         this.items = items;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(orderId, order.orderId) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(items, order.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, totalPrice, items);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", totalPrice=" + totalPrice +
+                ", items=" + items +
+                '}';
     }
 }

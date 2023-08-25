@@ -28,18 +28,23 @@ public interface OrderMapper {
     @Mapping(target = "updateAt", ignore = true)
     OrderItemEntity toOrderItemEntity(OrderItemsRequest request, Long orderId);
 
-    default List<OrderItemEntity> toOrderItemEntityList(List<OrderItemsRequest> entity, Long orderId){
-        return entity.stream().map(o -> toOrderItemEntity(o, orderId)).toList();
-    }
-
     @Mapping(target = "orderId", source = "orderEntity.id")
     @Mapping(target = "items", expression = "java(toOrderItemList(orderEntity.getItems()))")
     Order toOrder(OrderEntity orderEntity);
-    List<Order> toOrders(List<OrderEntity> orderEntity);
 
+
+    @Mapping(target = "totalPrice", source = "orderItemEntity.totalPrice")
     OrderItem toOrderItem(OrderItemEntity orderItemEntity);
 
-    default List<OrderItem> toOrderItemList(List<OrderItemEntity> entity){
+    default List<OrderItemEntity> toOrderItemEntityList(List<OrderItemsRequest> entity, Long orderId) {
+        return entity.stream().map(o -> toOrderItemEntity(o, orderId)).toList();
+    }
+
+    default List<Order> toOrdersList(List<OrderEntity> orderEntity) {
+        return orderEntity.stream().map(this::toOrder).toList();
+    }
+
+    default List<OrderItem> toOrderItemList(List<OrderItemEntity> entity) {
         return entity.stream().map(this::toOrderItem).toList();
     }
 

@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "order_item")
@@ -16,11 +17,11 @@ public class OrderItemEntity {
 
     @EmbeddedId
     private OrderItemPK id;
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
-    @Column(name = "unit_price")
+    @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
     @Column(name = "total_price")
     private BigDecimal totalPrice;
@@ -101,5 +102,31 @@ public class OrderItemEntity {
     public OrderItemEntity setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItemEntity that = (OrderItemEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(unitPrice, that.unitPrice) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createAt, that.createAt) && Objects.equals(updateAt, that.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productName, quantity, unitPrice, totalPrice, createAt, updateAt);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItemEntity{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                '}';
     }
 }

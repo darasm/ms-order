@@ -9,7 +9,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 
-@Path(value = "/v1/q/orders")
+@Path(value = "/orders/q/v1")
 @Tag(name = "Client Order Information", description = "Provide client order information")
 public interface CustomOrderAPI {
 

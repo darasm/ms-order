@@ -5,6 +5,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
+import java.util.Objects;
 
 @RegisterForReflection
 public class OrderRequest {
@@ -49,6 +50,19 @@ public class OrderRequest {
     public OrderRequest setItems(List<OrderItemsRequest> items) {
         this.items = items;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderRequest that = (OrderRequest) o;
+        return Objects.equals(orderId, that.orderId) && Objects.equals(clientId, that.clientId) && Objects.equals(items, that.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, clientId, items);
     }
 
     @Override

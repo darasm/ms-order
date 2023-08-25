@@ -7,7 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-@Path("/v1/orders")
+@Path("/orders/v1")
 @Tag(name = "Produce Orders", description = "Send order requests to order-request queue")
 public interface OrderRequestAPI {
 

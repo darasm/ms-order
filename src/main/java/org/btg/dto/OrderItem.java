@@ -4,6 +4,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class OrderItem {
 
@@ -54,5 +55,28 @@ public class OrderItem {
     public OrderItem setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return Objects.equals(productName, orderItem.productName) && Objects.equals(quantity, orderItem.quantity) && Objects.equals(unitPrice, orderItem.unitPrice) && Objects.equals(totalPrice, orderItem.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productName, quantity, unitPrice, totalPrice);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

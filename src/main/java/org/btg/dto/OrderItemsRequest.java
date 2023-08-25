@@ -5,6 +5,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @RegisterForReflection
 public class OrderItemsRequest {
@@ -49,6 +50,19 @@ public class OrderItemsRequest {
     public OrderItemsRequest setPrice(BigDecimal price) {
         this.price = price;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItemsRequest that = (OrderItemsRequest) o;
+        return Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productName, quantity, price);
     }
 
     @Override

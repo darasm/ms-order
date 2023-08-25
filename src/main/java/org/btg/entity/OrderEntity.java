@@ -1,6 +1,5 @@
 package org.btg.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "order_table", indexes = @Index(name = "idx_order_client_id", columnList = "client_id"))
@@ -87,5 +87,30 @@ public class OrderEntity {
     public OrderEntity setId(Long id) {
         this.id = id;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderEntity that = (OrderEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(clientId, that.clientId) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(items, that.items) && Objects.equals(createAt, that.createAt) && Objects.equals(updateAt, that.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, clientId, totalPrice, items, createAt, updateAt);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "id=" + id +
+                ", clientId=" + clientId +
+                ", totalPrice=" + totalPrice +
+                ", items=" + items +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                '}';
     }
 }
