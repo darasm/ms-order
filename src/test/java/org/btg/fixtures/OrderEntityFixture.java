@@ -16,7 +16,7 @@ public class OrderEntityFixture {
         // Default construct
     }
 
-    public static OrderEntity createOrderEntity() {
+    public static OrderEntity createOrderEntityWithTwoItems() {
         var item = createOrderItemEntity("Gatorade", ITEM_ID);
 
         var item2 = createOrderItemEntity("Coca-Cola", ITEM_ID_2);
@@ -28,8 +28,18 @@ public class OrderEntityFixture {
                 .setItems(List.of(item, item2));
     }
 
+    public static OrderEntity createOrderEntityWithOneItem() {
+        var item = createOrderItemEntity("Gatorade", ITEM_ID, 2L);
+
+        return new OrderEntity()
+                .setId(2L)
+                .setClientId(1L)
+                .setTotalPrice(BigDecimal.TEN)
+                .setItems(List.of(item));
+    }
+
     public static OrderEntity createOrderEntityWithNoTotalPrice() {
-        var orderEntity = createOrderEntity();
+        var orderEntity = createOrderEntityWithTwoItems();
         orderEntity.setTotalPrice(null);
         orderEntity.getItems().forEach(item -> item.setTotalPrice(null));
         return orderEntity;

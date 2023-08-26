@@ -21,6 +21,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
+import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
+import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
+
 @QuarkusTest
 class OrderRepositoryTest {
 
@@ -37,31 +41,8 @@ class OrderRepositoryTest {
     @Test
     @Transactional
     void testClientWithOnwOrder() {
-        var item = new OrderItemEntity()
-                .setId(new OrderItemPK(ITEM_ID, 1L))
-                .setTotalPrice(BigDecimal.valueOf(5L))
-                .setProductName("Gatorade")
-                .setUnitPrice(BigDecimal.ONE)
-                .setQuantity(5)
-                .setCreateAt(new Date())
-                .setUpdateAt(new Date());
 
-        var item2 = new OrderItemEntity()
-                .setId(new OrderItemPK(ITEM_ID_2, 1L))
-                .setTotalPrice(BigDecimal.valueOf(5L))
-                .setProductName("Coca-Cola")
-                .setUnitPrice(BigDecimal.ONE)
-                .setQuantity(5)
-                .setCreateAt(new Date())
-                .setUpdateAt(new Date());
-
-        var orderEntity = new OrderEntity()
-                .setId(1L)
-                .setClientId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(item, item2));
-
-
+        var orderEntity = createOrderEntityWithTwoItems();
         PanacheEntityBase.persist(orderEntity);
 
         var gatoradeItem = new OrderItem()
@@ -100,50 +81,17 @@ class OrderRepositoryTest {
     @Test
     @Transactional
     void testClientWithMoreThanOnwOrder(){
-        var item = new OrderItemEntity()
-                .setId(new OrderItemPK(ITEM_ID, 1L))
-                .setTotalPrice(BigDecimal.valueOf(5L))
-                .setProductName("Gatorade")
-                .setUnitPrice(BigDecimal.ONE)
-                .setQuantity(5)
-                .setCreateAt(new Date())
-                .setUpdateAt(new Date());
 
-        var item2 = new OrderItemEntity()
-                .setId(new OrderItemPK(ITEM_ID_2, 1L))
-                .setTotalPrice(BigDecimal.valueOf(5L))
-                .setProductName("Coca-Cola")
-                .setUnitPrice(BigDecimal.ONE)
-                .setQuantity(5)
-                .setCreateAt(new Date())
-                .setUpdateAt(new Date());
+        var orderEntity = createOrderEntityWithTwoItems();
 
-        var orderEntity = new OrderEntity()
-                .setId(1L)
-                .setClientId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(item, item2));
-
-        var secondOrderEntity = new OrderEntity()
-                .setId(2L)
-                .setClientId(1L)
-                .setTotalPrice(BigDecimal.valueOf(5L))
-                .setItems(List.of(item));
+        var secondOrderEntity = createOrderEntityWithOneItem();
 
         PanacheEntityBase.persist(orderEntity);
         PanacheEntityBase.persist(secondOrderEntity);
 
-        var gatoradeItem = new OrderItem()
-                .setProductName("Gatorade")
-                .setQuantity(5)
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5L));
+        var gatoradeItem = createOrderItemDTO("Gatorade");
 
-        var cocaItem = new OrderItem()
-                .setProductName("Coca-Cola")
-                .setQuantity(5)
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5L));
+        var cocaItem = createOrderItemDTO("Gatorade");
 
         var order = new Order()
                 .setOrderId(1L)

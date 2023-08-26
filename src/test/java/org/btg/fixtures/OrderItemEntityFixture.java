@@ -23,4 +23,8 @@ public class OrderItemEntityFixture {
                 .setCreateAt(new Date())
                 .setUpdateAt(new Date());
     }
+    public static OrderItemEntity createOrderItemEntity(String productName, UUID itemId, Long orderID) {
+        return createOrderItemEntity(productName, itemId)
+                .setId(new OrderItemPK().setOrderItemId(itemId).setOrderId(orderID));
+    }
 }

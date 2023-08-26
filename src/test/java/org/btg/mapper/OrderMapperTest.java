@@ -3,7 +3,6 @@ package org.btg.mapper;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.btg.dto.OrderRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Objects;
 
 import static org.btg.constant.OrderConstants.ITEM_ID;
 import static org.btg.constant.OrderConstants.ITEM_ID_2;
-import static org.btg.fixtures.OrderEntityFixture.createOrderEntity;
+import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithNoTotalPrice;
 import static org.btg.fixtures.OrderFixture.createOrderDTO;
 import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
@@ -66,7 +65,7 @@ class OrderMapperTest {
 
     @Test
     void toOrder() {
-        var orderEntity = createOrderEntity();
+        var orderEntity = createOrderEntityWithTwoItems();
 
         var order = createOrderDTO();
 
@@ -107,7 +106,7 @@ class OrderMapperTest {
 
     @Test
     void toOrdersList() {
-        var orderEntity = createOrderEntity();
+        var orderEntity = createOrderEntityWithTwoItems();
         var order = createOrderDTO();
 
         var response = orderMapper.toOrdersList(List.of(orderEntity));
