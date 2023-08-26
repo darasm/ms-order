@@ -23,12 +23,11 @@ public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long>
                 .collect(Collectors.groupingBy(OrderEntity::getClientId))
                 .entrySet();
 
-        var orderInt = orders.stream().map(c ->
+        return orders.stream().map(c ->
                 new ClientOrderInfo()
                         .setClientId(c.getKey())
                         .setAmountOfOrders(c.getValue().size())
                         .setOrders(mapper.toOrdersList(c.getValue()))).toList();
 
-        return orderInt;
     }
 }
