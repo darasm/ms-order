@@ -24,11 +24,11 @@ public class OrderFixture {
                 .setItems(List.of(gatoradeItem, cocaItem));
     }
 
-    public static Order createOrderWithOneItemDTO() {
+    public static Order createOrderIdTwoWithOneItemDTO() {
         var cocaItem = createOrderItemDTO("Coca-Cola");
 
         return new Order()
-                .setOrderId(1L)
+                .setOrderId(2L)
                 .setTotalPrice(BigDecimal.TEN)
                 .setItems(List.of(cocaItem));
     }

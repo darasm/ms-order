@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
+import static org.btg.fixtures.OrderFixture.createOrderIdTwoWithOneItemDTO;
 import static org.btg.fixtures.OrderFixture.createOrderWithTwoItemsDTO;
 import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 
@@ -86,13 +87,9 @@ class OrderRepositoryTest {
         PanacheEntityBase.persist(orderEntity);
         PanacheEntityBase.persist(secondOrderEntity);
 
-        var gatoradeItem = createOrderItemDTO("Gatorade");
 
         var order = createOrderWithTwoItemsDTO();
-        var secondOrder = new Order()
-                .setOrderId(2L)
-                .setTotalPrice(BigDecimal.valueOf(5))
-                .setItems(List.of(gatoradeItem));
+        var secondOrder = createOrderIdTwoWithOneItemDTO();
 
 
         var expectedResponse = new ClientOrderInfo()
