@@ -4,7 +4,6 @@ import org.btg.entity.OrderEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 import static org.btg.constant.OrderConstants.ITEM_ID;
 import static org.btg.constant.OrderConstants.ITEM_ID_2;

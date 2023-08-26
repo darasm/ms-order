@@ -6,7 +6,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.btg.mapper.OrderMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -18,6 +17,9 @@ import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
 import static org.btg.fixtures.OrderFixture.createOrderIdTwoWithOneItemDTO;
 import static org.btg.fixtures.OrderFixture.createOrderWithTwoItemsDTO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.wildfly.common.Assert.assertFalse;
 
 @QuarkusTest
 class OrderRepositoryTest {
@@ -45,14 +47,14 @@ class OrderRepositoryTest {
 
         var expectedResponse = createOrderForTwoClients();
 
-        Mockito.when(orderMapper.toOrdersList(Mockito.any()))
+        when(orderMapper.toOrdersList(Mockito.any()))
                 .thenReturn(List.of(createOrderWithTwoItemsDTO(),
                         createOrderIdTwoWithOneItemDTO()));
 
         var response = repository.findClientsOrders();
 
-        Assertions.assertFalse(response.isEmpty());
-        Assertions.assertEquals(expectedResponse, response);
+        assertFalse(response.isEmpty());
+        assertEquals(expectedResponse, response);
 
     }
 
@@ -69,14 +71,14 @@ class OrderRepositoryTest {
 
         var expectedResponse = createClientOrderInfoWithTwoItems();
 
-        Mockito.when(orderMapper.toOrdersList(Mockito.any()))
+        when(orderMapper.toOrdersList(Mockito.any()))
                 .thenReturn(List.of(createOrderWithTwoItemsDTO(),
                         createOrderIdTwoWithOneItemDTO()));
 
         var response = repository.findClientsOrders();
 
-        Assertions.assertFalse(response.isEmpty());
-        Assertions.assertEquals(expectedResponse, response);
+        assertFalse(response.isEmpty());
+        assertEquals(expectedResponse, response);
 
     }
 
