@@ -13,14 +13,21 @@ public class ClientOrderInfoFixture {
         //Default constructor
     }
 
-    public static ClientOrderInfo createClientOrderInfoWithTwoItems(){
+    public static List<ClientOrderInfo> createClientOrderInfoWithTwoItems(){
 
         var order = createOrderWithTwoItemsDTO();
         var secondOrder = createOrderIdTwoWithOneItemDTO();
 
-        return new ClientOrderInfo()
+        return List.of(new ClientOrderInfo()
                 .setClientId(1L)
                 .setAmountOfOrders(2)
-                .setOrders(List.of(order, secondOrder));
+                .setOrders(List.of(order, secondOrder)));
+    }
+
+    public static List<ClientOrderInfo> createOrderForTwoClients(){
+        var client1 = createClientOrderInfoWithTwoItems().get(0);
+        var client2 = createClientOrderInfoWithTwoItems().get(0).setClientId(2L);
+
+        return List.of(client1, client2);
     }
 }

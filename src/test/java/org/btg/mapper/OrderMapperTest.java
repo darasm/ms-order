@@ -65,7 +65,7 @@ class OrderMapperTest {
 
     @Test
     void toOrder() {
-        var orderEntity = createOrderEntityWithTwoItems();
+        var orderEntity = createOrderEntityWithTwoItems(1L);
 
         var order = createOrderWithTwoItemsDTO();
 
@@ -106,7 +106,7 @@ class OrderMapperTest {
 
     @Test
     void toOrdersList() {
-        var orderEntity = createOrderEntityWithTwoItems();
+        var orderEntity = createOrderEntityWithTwoItems(1L);
         var order = createOrderWithTwoItemsDTO();
 
         var response = orderMapper.toOrdersList(List.of(orderEntity));
