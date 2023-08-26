@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.btg.constant.OrderConstants.ITEM_ID;
 import static org.btg.constant.OrderConstants.ITEM_ID_2;
@@ -16,8 +17,7 @@ import static org.btg.fixtures.OrderFixture.createOrderDTO;
 import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
 import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 import static org.btg.fixtures.OrderItemRequestFixture.createOrderItemRequest;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 class OrderMapperTest {
@@ -41,9 +41,9 @@ class OrderMapperTest {
 
         var response = orderMapper.toEntity(orderRequest);
 
-        Assertions.assertEquals(expectedResponse.getId(), response.getId());
-        Assertions.assertEquals(expectedResponse.getClientId(), response.getClientId());
-        Assertions.assertEquals(expectedResponse.getItems().size(), response.getItems().size());
+        assertEquals(expectedResponse.getId(), response.getId());
+        assertEquals(expectedResponse.getClientId(), response.getClientId());
+        assertEquals(expectedResponse.getItems().size(), response.getItems().size());
 
 
     }
@@ -57,10 +57,10 @@ class OrderMapperTest {
         var response = orderMapper.toOrderItemEntity(orderItemRequest, 1L);
 
         assertNotNull(response.getId().getOrderItemId());
-        Assertions.assertEquals(expectedResponse.getProductName(), response.getProductName());
-        Assertions.assertEquals(expectedResponse.getQuantity(), response.getQuantity());
-        Assertions.assertEquals(expectedResponse.getUnitPrice(), response.getUnitPrice());
-        Assertions.assertEquals(expectedResponse.getTotalPrice(), response.getTotalPrice());
+        assertEquals(expectedResponse.getProductName(), response.getProductName());
+        assertEquals(expectedResponse.getQuantity(), response.getQuantity());
+        assertEquals(expectedResponse.getUnitPrice(), response.getUnitPrice());
+        assertEquals(expectedResponse.getTotalPrice(), response.getTotalPrice());
 
     }
 
@@ -72,7 +72,7 @@ class OrderMapperTest {
 
         var response = orderMapper.toOrder(orderEntity);
 
-        Assertions.assertEquals(order, response);
+        assertEquals(order, response);
     }
 
 
@@ -84,7 +84,7 @@ class OrderMapperTest {
 
         var response = orderMapper.toOrderItem(orderItemEntity);
 
-        Assertions.assertEquals(expectedResponse, response);
+        assertEquals(expectedResponse, response);
     }
 
     @Test
@@ -100,8 +100,8 @@ class OrderMapperTest {
         var response = orderMapper.toOrderItemEntityList(List.of(gatoradeItem, cocaItem), 1L);
 
         response.forEach(r -> assertNotNull(r.getId().getOrderItemId()));
-        assertTrue(response.stream().anyMatch(r -> r.getProductName() == expectedResponse.get(0).getProductName()));
-        assertTrue(response.stream().anyMatch(r -> r.getProductName() == expectedResponse.get(1).getProductName()));
+        assertTrue(response.stream().anyMatch(r -> Objects.equals(r.getProductName(), expectedResponse.get(0).getProductName())));
+        assertTrue(response.stream().anyMatch(r -> Objects.equals(r.getProductName(), expectedResponse.get(1).getProductName())));
 
     }
 
@@ -112,7 +112,7 @@ class OrderMapperTest {
 
         var response = orderMapper.toOrdersList(List.of(orderEntity));
 
-        Assertions.assertEquals(List.of(order), response);
+        assertEquals(List.of(order), response);
     }
 
     @Test
@@ -123,7 +123,7 @@ class OrderMapperTest {
         var expectedResponse = List.of(createOrderItemDTO("Gatorade"), createOrderItemDTO("Coca-Cola"));
         var response = orderMapper.toOrderItemList(List.of(gatoradeItemEntity, cocaItemEntity));
 
-        Assertions.assertEquals(expectedResponse, response);
+        assertEquals(expectedResponse, response);
     }
 
 }

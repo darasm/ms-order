@@ -11,6 +11,7 @@ import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
 
 public class OrderEntityFixture {
 
+
     private OrderEntityFixture() {
         // Default construct
     }
