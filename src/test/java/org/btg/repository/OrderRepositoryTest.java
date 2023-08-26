@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import static org.btg.fixtures.ClientOrderInfoFixture.createClientOrderInfoWithTwoItems;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
 import static org.btg.fixtures.OrderFixture.createOrderIdTwoWithOneItemDTO;
@@ -87,18 +88,10 @@ class OrderRepositoryTest {
         PanacheEntityBase.persist(orderEntity);
         PanacheEntityBase.persist(secondOrderEntity);
 
-
-        var order = createOrderWithTwoItemsDTO();
-        var secondOrder = createOrderIdTwoWithOneItemDTO();
-
-
-        var expectedResponse = new ClientOrderInfo()
-                .setClientId(1L)
-                .setAmountOfOrders(2)
-                .setOrders(List.of(order, secondOrder));
+        var expectedResponse = createClientOrderInfoWithTwoItems();
 
         Mockito.when(orderMapper.toOrdersList(Mockito.any()))
-                .thenReturn(List.of(order, secondOrder));
+                .thenReturn(List.of(createOrderWithTwoItemsDTO(), createOrderIdTwoWithOneItemDTO()));
 
         var response = repository.findClientsOrders();
 
