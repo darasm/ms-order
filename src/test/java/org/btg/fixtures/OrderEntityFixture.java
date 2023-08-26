@@ -1,10 +1,13 @@
 package org.btg.fixtures;
 
 import org.btg.entity.OrderEntity;
-import org.btg.entity.OrderItemEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static org.btg.constant.OrderConstants.ITEM_ID;
+import static org.btg.constant.OrderConstants.ITEM_ID_2;
+import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
 
 public class OrderEntityFixture {
 
@@ -12,16 +15,22 @@ public class OrderEntityFixture {
         // Default construct
     }
 
-    public static OrderEntity createOrderEntity(List<OrderItemEntity> items) {
+    public static OrderEntity createOrderEntity() {
+        var item = createOrderItemEntity("Gatorade", ITEM_ID);
+
+        var item2 = createOrderItemEntity("Coca-Cola", ITEM_ID_2);
 
         return new OrderEntity()
                 .setId(1L)
                 .setClientId(1L)
                 .setTotalPrice(BigDecimal.TEN)
-                .setItems(items);
+                .setItems(List.of(item, item2));
     }
 
-    public static OrderEntity createOrderEntityWithNoTotalPrice(List<OrderItemEntity> items) {
-        return createOrderEntity(items).setTotalPrice(null);
+    public static OrderEntity createOrderEntityWithNoTotalPrice() {
+        var orderEntity = createOrderEntity();
+        orderEntity.setTotalPrice(null);
+        orderEntity.getItems().forEach(item -> item.setTotalPrice(null));
+        return orderEntity;
     }
 }

@@ -2,21 +2,17 @@ package org.btg.mapper;
 
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import org.btg.dto.Order;
-import org.btg.dto.OrderItem;
-import org.btg.dto.OrderItemsRequest;
 import org.btg.dto.OrderRequest;
-import org.btg.entity.OrderEntity;
-import org.btg.entity.OrderItemEntity;
-import org.btg.entity.OrderItemPK;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+import static org.btg.constant.OrderConstants.ITEM_ID;
+import static org.btg.constant.OrderConstants.ITEM_ID_2;
+import static org.btg.fixtures.OrderEntityFixture.createOrderEntity;
+import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithNoTotalPrice;
+import static org.btg.fixtures.OrderFixture.createOrderDTO;
 import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
 import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 import static org.btg.fixtures.OrderItemRequestFixture.createOrderItemRequest;
@@ -28,9 +24,6 @@ class OrderMapperTest {
 
     @Inject
     private OrderMapper orderMapper;
-
-    private static final UUID ITEM_ID = UUID.fromString("834efdb6-6044-4b44-8fcb-560710936f37");
-    private static final UUID ITEM_ID_2 = UUID.fromString("511fea83-9f5f-4606-85ec-3d769da4bf63");
 
     @Test
     void toEntity() {
@@ -133,34 +126,4 @@ class OrderMapperTest {
         Assertions.assertEquals(expectedResponse, response);
     }
 
-
-    private Order createOrderDTO() {
-        var gatoradeItem = createOrderItemDTO("Gatorade");
-
-        var cocaItem = createOrderItemDTO("Coca-Cola");
-
-        return new Order()
-                .setOrderId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(gatoradeItem, cocaItem));
-    }
-
-    private OrderEntity createOrderEntity() {
-        var item = createOrderItemEntity("Gatorade", ITEM_ID);
-
-        var item2 = createOrderItemEntity("Coca-Cola", ITEM_ID_2);
-
-        return new OrderEntity()
-                .setId(1L)
-                .setClientId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(item, item2));
-    }
-
-    private OrderEntity createOrderEntityWithNoTotalPrice() {
-        var orderEntity = createOrderEntity();
-        orderEntity.setTotalPrice(null);
-        orderEntity.getItems().forEach(item -> item.setTotalPrice(null));
-        return orderEntity;
-    }
 }
