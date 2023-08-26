@@ -13,7 +13,7 @@ public class OrderFixture {
         // Default construct
     }
 
-    public static Order createOrderDTO() {
+    public static Order createOrderWithTwoItemsDTO() {
         var gatoradeItem = createOrderItemDTO("Gatorade");
 
         var cocaItem = createOrderItemDTO("Coca-Cola");
@@ -22,5 +22,14 @@ public class OrderFixture {
                 .setOrderId(1L)
                 .setTotalPrice(BigDecimal.TEN)
                 .setItems(List.of(gatoradeItem, cocaItem));
+    }
+
+    public static Order createOrderWithOneItemDTO() {
+        var cocaItem = createOrderItemDTO("Coca-Cola");
+
+        return new Order()
+                .setOrderId(1L)
+                .setTotalPrice(BigDecimal.TEN)
+                .setItems(List.of(cocaItem));
     }
 }

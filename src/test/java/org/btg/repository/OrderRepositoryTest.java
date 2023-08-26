@@ -8,21 +8,18 @@ import jakarta.transaction.Transactional;
 import org.btg.dto.ClientOrderInfo;
 import org.btg.dto.Order;
 import org.btg.dto.OrderItem;
-import org.btg.entity.OrderEntity;
-import org.btg.entity.OrderItemEntity;
-import org.btg.entity.OrderItemPK;
 import org.btg.mapper.OrderMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
+import static org.btg.fixtures.OrderFixture.createOrderWithTwoItemsDTO;
 import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 
 @QuarkusTest
@@ -91,13 +88,7 @@ class OrderRepositoryTest {
 
         var gatoradeItem = createOrderItemDTO("Gatorade");
 
-        var cocaItem = createOrderItemDTO("Gatorade");
-
-        var order = new Order()
-                .setOrderId(1L)
-                .setTotalPrice(BigDecimal.TEN)
-                .setItems(List.of(gatoradeItem, cocaItem));
-
+        var order = createOrderWithTwoItemsDTO();
         var secondOrder = new Order()
                 .setOrderId(2L)
                 .setTotalPrice(BigDecimal.valueOf(5))

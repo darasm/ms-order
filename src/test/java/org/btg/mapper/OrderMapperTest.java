@@ -12,7 +12,7 @@ import static org.btg.constant.OrderConstants.ITEM_ID;
 import static org.btg.constant.OrderConstants.ITEM_ID_2;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithNoTotalPrice;
-import static org.btg.fixtures.OrderFixture.createOrderDTO;
+import static org.btg.fixtures.OrderFixture.createOrderWithTwoItemsDTO;
 import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
 import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 import static org.btg.fixtures.OrderItemRequestFixture.createOrderItemRequest;
@@ -67,7 +67,7 @@ class OrderMapperTest {
     void toOrder() {
         var orderEntity = createOrderEntityWithTwoItems();
 
-        var order = createOrderDTO();
+        var order = createOrderWithTwoItemsDTO();
 
         var response = orderMapper.toOrder(orderEntity);
 
@@ -107,7 +107,7 @@ class OrderMapperTest {
     @Test
     void toOrdersList() {
         var orderEntity = createOrderEntityWithTwoItems();
-        var order = createOrderDTO();
+        var order = createOrderWithTwoItemsDTO();
 
         var response = orderMapper.toOrdersList(List.of(orderEntity));
 
