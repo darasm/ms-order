@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.btg.fixtures.OrderItemEntityFixture.createOrderItemEntity;
+import static org.btg.fixtures.OrderItemFixture.createOrderItemDTO;
 import static org.btg.fixtures.OrderItemRequestFixture.createOrderItemRequest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -132,14 +133,6 @@ class OrderMapperTest {
         Assertions.assertEquals(expectedResponse, response);
     }
 
-
-    private OrderItem createOrderItemDTO(String productName) {
-        return new OrderItem()
-                .setProductName(productName)
-                .setQuantity(5)
-                .setUnitPrice(BigDecimal.ONE)
-                .setTotalPrice(BigDecimal.valueOf(5L));
-    }
 
     private Order createOrderDTO() {
         var gatoradeItem = createOrderItemDTO("Gatorade");
