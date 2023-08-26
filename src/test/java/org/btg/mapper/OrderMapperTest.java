@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.btg.fixtures.OrderItemRequestFixture.createOrderItemRequest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -130,12 +131,6 @@ class OrderMapperTest {
         Assertions.assertEquals(expectedResponse, response);
     }
 
-    private OrderItemsRequest createOrderItemRequest(String productName) {
-        return new OrderItemsRequest()
-                .setProductName(productName)
-                .setPrice(BigDecimal.ONE)
-                .setQuantity(5);
-    }
     private OrderItemEntity createOrderItemEntity(String productName, UUID itemId) {
         return new OrderItemEntity()
                 .setId(new OrderItemPK().setOrderItemId(itemId).setOrderId(1L))
