@@ -11,6 +11,7 @@ import org.btg.mapper.OrderMapper;
 import org.btg.mapper.PaginationMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -33,13 +34,16 @@ public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long>
         var clientOrders =  orders.list().stream()
                 .collect(Collectors.groupingBy(OrderEntity::getClientId))
                 .entrySet()
-                .stream().map(c ->
-                new ClientOrderInfo()
-                        .setClientId(c.getKey())
-                        .setAmountOfOrders(c.getValue().size())
-                        .setOrders(mapper.toOrdersList(c.getValue()))).toList();
+                .stream().map(this::createClientOrderInfo).toList();
 
         return new PaginatedResponse<>(clientOrders, paginationMapper.from(orders));
 
+    }
+
+    private ClientOrderInfo createClientOrderInfo(Map.Entry<Long, List<OrderEntity>> c) {
+        return new ClientOrderInfo()
+                .setClientId(c.getKey())
+                .setAmountOfOrders(c.getValue().size())
+                .setOrders(mapper.toOrdersList(c.getValue()));
     }
 }
