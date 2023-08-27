@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 
 import java.util.List;
 
-import static org.btg.fixtures.ClientOrderInfoFixture.createClientOrderInfoWithTwoItems;
 import static org.btg.fixtures.ClientOrderInfoFixture.createOrderForTwoClients;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithOneItem;
 import static org.btg.fixtures.OrderEntityFixture.createOrderEntityWithTwoItems;
@@ -42,7 +41,7 @@ class OrderRepositoryTest {
         var secondItemSecondClient = createOrderEntityWithOneItem(4L).setClientId(2L);
 
         PanacheEntityBase.persist(List.of(orderEntity, secondItem));
-        PanacheEntityBase.persist(List.of(orderEntitySecondClient,secondItemSecondClient));
+        PanacheEntityBase.persist(List.of(orderEntitySecondClient, secondItemSecondClient));
 
 
         var expectedResponse = createOrderForTwoClients();
@@ -57,29 +56,4 @@ class OrderRepositoryTest {
         assertEquals(expectedResponse, response);
 
     }
-
-//    @Test
-    @Transactional
-    void testClientWithMoreThanOnwOrder(){ //FIXME
-
-        var orderEntity = createOrderEntityWithTwoItems(1L);
-
-        var secondOrderEntity = createOrderEntityWithOneItem(2L);
-
-        PanacheEntityBase.persist(orderEntity);
-        PanacheEntityBase.persist(secondOrderEntity);
-
-        var expectedResponse = createClientOrderInfoWithTwoItems();
-
-        when(orderMapper.toOrdersList(Mockito.any()))
-                .thenReturn(List.of(createOrderWithTwoItemsDTO(),
-                        createOrderIdTwoWithOneItemDTO()));
-
-        var response = repository.findClientsOrders();
-
-        assertFalse(response.isEmpty());
-        assertEquals(expectedResponse, response);
-
-    }
-
 }
