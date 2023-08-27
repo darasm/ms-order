@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper(componentModel = "cdi")
 public interface OrderMapper {
 
-
+    @Mapping(target = "totalPrice", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)
     @Mapping(target = "items", expression = "java(toOrderItemEntityList(request.items, request.orderId))")

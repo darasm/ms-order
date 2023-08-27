@@ -1,10 +1,10 @@
 package org.btg.controller;
 
 import io.quarkus.test.InjectMock;
-import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.btg.dto.ClientOrderInfo;
+import org.btg.dto.PageInfo;
 import org.btg.dto.PaginatedResponse;
 import org.btg.dto.PaginationInfo;
 import org.btg.repository.OrderRepository;
@@ -25,10 +25,10 @@ class CustomOrderControllerTest {
 
     @Test
     void testReturnEmptyClientOrderInfo() { //FIXME
-        Mockito.when(repository.findClientsOrders(Mockito.any(PaginationInfo.class)))
+        Mockito.when(repository.findClientsOrders(Mockito.any(PageInfo.class)))
                 .thenReturn(new PaginatedResponse<>(List.of(), new PaginationInfo()));
 
-        var response = controller.getClientOrders(new PaginationInfo());
+        var response = controller.getClientOrders(new PageInfo());
 
         Assertions.assertTrue(response.getContent().isEmpty());
     }
@@ -42,10 +42,10 @@ class CustomOrderControllerTest {
         expectedReturn.setOrders(List.of());
 
 
-        Mockito.when(repository.findClientsOrders(Mockito.any(PaginationInfo.class)))
+        Mockito.when(repository.findClientsOrders(Mockito.any(PageInfo.class)))
                 .thenReturn(new PaginatedResponse<>(List.of(expectedReturn), new PaginationInfo()));
 
-        var response = controller.getClientOrders(new PaginationInfo());
+        var response = controller.getClientOrders(new PageInfo());
 
         Assertions.assertFalse(response.getContent().isEmpty());
     }
