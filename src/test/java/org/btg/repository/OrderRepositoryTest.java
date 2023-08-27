@@ -5,6 +5,7 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.btg.dto.PaginationInfo;
 import org.btg.mapper.OrderMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -50,10 +51,10 @@ class OrderRepositoryTest {
                 .thenReturn(List.of(createOrderWithTwoItemsDTO(),
                         createOrderIdTwoWithOneItemDTO()));
 
-        var response = repository.findClientsOrders();
+        var response = repository.findClientsOrders(new PaginationInfo()); //FIXME
 
-        assertFalse(response.isEmpty());
-        assertEquals(expectedResponse, response);
+        assertFalse(response.getContent().isEmpty());
+        assertEquals(expectedResponse, response.getContent());
 
     }
 }

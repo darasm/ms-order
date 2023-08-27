@@ -1,8 +1,11 @@
 package org.btg.client;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.btg.dto.ClientOrderInfo;
+import org.btg.dto.PaginatedResponse;
+import org.btg.dto.PaginationInfo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -18,7 +21,7 @@ public interface CustomOrderAPI {
     @Operation(summary = "Get All Clients With Order information")
     @APIResponse(responseCode = "200", description = "Clients with order returned successfully")
     @APIResponse(responseCode = "500", description = "Unable to return information due to an internal error")
-    default List<ClientOrderInfo> getClientOrders(){
+    default PaginatedResponse<List<ClientOrderInfo>> getClientOrders(@Valid @BeanParam PaginationInfo paginationInfo){
         throw new ServiceUnavailableException("Endpoint not implemented yet");
     }
 }
