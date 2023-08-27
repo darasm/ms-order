@@ -2,7 +2,6 @@ package org.btg.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Page;
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.btg.dto.ClientOrderInfo;
 import org.btg.dto.PageInfo;
@@ -10,6 +9,7 @@ import org.btg.dto.PaginatedResponse;
 import org.btg.dto.PaginationInfo;
 import org.btg.entity.OrderEntity;
 import org.btg.mapper.OrderMapper;
+import org.btg.mapper.PaginationMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,9 +18,11 @@ import java.util.stream.Collectors;
 public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long> {
 
     private final OrderMapper mapper;
+    private final PaginationMapper paginationMapper;
 
-    public OrderRepository(OrderMapper mapper) {
+    public OrderRepository(OrderMapper mapper, PaginationMapper paginationMapper) {
         this.mapper = mapper;
+        this.paginationMapper = paginationMapper;
     }
 
     public PaginatedResponse<List<ClientOrderInfo>> findClientsOrders(PageInfo paginationInfo) {
@@ -37,10 +39,7 @@ public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long>
                         .setAmountOfOrders(c.getValue().size())
                         .setOrders(mapper.toOrdersList(c.getValue()))).toList();
 
-        PaginationInfo resultPaginationInfo = new PaginationInfo();
-        resultPaginationInfo.setPage(orders.page().index + 1);
-        resultPaginationInfo.setPageSize(orders.page().size);
-        resultPaginationInfo.setCount(orders.count());
+        var resultPaginationInfo = paginationMapper.from(orders);
 
         return new PaginatedResponse<>(clientOrders, resultPaginationInfo);
 
