@@ -6,7 +6,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.btg.dto.ClientOrderInfo;
 import org.btg.dto.PageInfo;
 import org.btg.dto.PaginatedResponse;
-import org.btg.dto.PaginationInfo;
 import org.btg.entity.OrderEntity;
 import org.btg.mapper.OrderMapper;
 import org.btg.mapper.PaginationMapper;
@@ -32,16 +31,15 @@ public class OrderRepository implements PanacheRepositoryBase<OrderEntity, Long>
         var orders = findAll().page(page);
 
         var clientOrders =  orders.list().stream()
-                .collect(Collectors.groupingBy(OrderEntity::getClientId)).entrySet()
+                .collect(Collectors.groupingBy(OrderEntity::getClientId))
+                .entrySet()
                 .stream().map(c ->
                 new ClientOrderInfo()
                         .setClientId(c.getKey())
                         .setAmountOfOrders(c.getValue().size())
                         .setOrders(mapper.toOrdersList(c.getValue()))).toList();
 
-        var resultPaginationInfo = paginationMapper.from(orders);
-
-        return new PaginatedResponse<>(clientOrders, resultPaginationInfo);
+        return new PaginatedResponse<>(clientOrders, paginationMapper.from(orders));
 
     }
 }
