@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.QueryParam;
 
+import java.util.Objects;
+
 public class PaginationInfo {
 
     @QueryParam("page")
@@ -74,5 +76,29 @@ public class PaginationInfo {
     public PaginationInfo setCount(long count) {
         this.count = count;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaginationInfo that = (PaginationInfo) o;
+        return page == that.page && pageSize == that.pageSize && count == that.count && Objects.equals(orderProperty, that.orderProperty) && Objects.equals(orderType, that.orderType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(page, pageSize, orderProperty, orderType, count);
+    }
+
+    @Override
+    public String toString() {
+        return "PaginationInfo{" +
+                "page=" + page +
+                ", pageSize=" + pageSize +
+                ", orderProperty='" + orderProperty + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", count=" + count +
+                '}';
     }
 }

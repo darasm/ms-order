@@ -30,4 +30,5 @@ public class ClientOrderInfoFixture {
 
         return List.of(client1, client2);
     }
+
 }
